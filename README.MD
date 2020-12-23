@@ -1,6 +1,6 @@
 This is the ultimate repository for any Competitive Coder. This contains all the code from https://cp-algorithms.com/.
 
-Additionally it contains examples which are Standard solved from Topics like Dynamic Programming and Recursion which each and every person must know.
+Additionally it contains examples which are Standard solved from Topics like Dynamic Programming and Recursion which must be known by CP enthusiasts.
 
 This repo also contains all type of dynamic programming questions possible.
 
