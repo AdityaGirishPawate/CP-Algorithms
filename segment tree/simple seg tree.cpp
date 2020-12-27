@@ -78,7 +78,16 @@ int32_t main() {
         }
     }
 
-
+    
     return 0;
 }
 
+/*
+sample test case
+5 5
+5 4 2 3 5
+2 0 3
+1 1 1
+2 0 3
+1 3 1
+2 0 5*/
