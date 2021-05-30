@@ -1,76 +1,127 @@
-#include <cstdio>
-#include <bits/stdc++.h>
-#include "iostream"
+// { Driver Code Starts
+//Initial template for C++
+
+#include<bits/stdc++.h>
 using namespace std;
-#define int long long
-#define INF (int)10e9
-#define MAX_INT (int)10e5+5
+typedef pair<int, int> PII;
 
-struct seg_tree{
-    int size=1;
-    vector<int> minimum;
-    void init(int n){
-        while(size<n) size*=2;
-        minimum.assign(2*size,0LL);
-    }
-    void set(int i, int v, int x, int lx, int rx){
-        if(rx-lx==1){
-            minimum[x]=v;
-            return;
-        }
-        int m=(lx+rx)/2;
-        if(i<m){
-            set(i,v,2*x+1,lx,m);
-        }
-        else{
-            set(i,v,2*x+2,m,rx);
-        }
-        minimum[x]=min(minimum[2*x+1],minimum[2*x+2]);
-    }
-    void set(int i,int v){
-        set(i,v,0,0,size);
-    }
-    int Min(int l, int r, int x, int lx, int rx){
-        if(l<=lx && r>=rx){
-            return minimum[x];
-        }
-        if(l>=rx || lx>=r){
-            return INF;
-        }
-        int m=(lx + rx)/2;
-        return min(Min(l,r,2*x+1,lx,m),Min(l,r,2*x+2,m,rx));
-    }
-    int Min(int l, int r){
-        return Min(l,r,0,0,size);
-    }
-};
+int getMid(int s, int e) {  return s + (e -s)/2;  }
 
-
-int32_t main() {
-    ios::sync_with_stdio(false);
-    int n,m;
-    cin>>n>>m;
-    seg_tree st;
-    st.init(n);
-    int x;
-    for (int i = 0; i < n; ++i) {
-        cin>>x;
-        st.set(i,x);
+void constructSTUtil(int *arr, int ss, int se, PII *st, int si)
+{
+    if (ss == se)
+    {
+        st[si].first = st[si].second = arr[ss];
+        return;
     }
-    while(m--){
-        int a;
-        cin>>a;
-        if(a==1){
-            int i,v;
-            cin>>i>>v;
-            st.set(i,v);
-        }
-        else if(a==2){
-            int l,r;
-            cin>>l>>r;
-            cout<<st.Min(l,r)<<endl;
-        }
-    }
-    return 0;
+    int mid = getMid(ss, se);
+    constructSTUtil(arr, ss, mid, st, si*2+1);
+    constructSTUtil(arr, mid+1, se, st, si*2+2);
+    
+    st[si].first = min(st[si*2+1].first, st[si*2+2].first);
+    st[si].second = max(st[si*2+1].second, st[si*2+2].second);
+    
+    return;
 }
+
+PII *constructST(int *arr, int n)
+{
+    int x = (int)(ceil(log2(n)));
+    int max_size = 2*(int)pow(2, x) - 1;
+    PII *st = new PII[max_size];
+    constructSTUtil(arr, 0, n-1, st, 0);
+    return st;
+}
+
+void updateValue(int *, PII *, int, int, int);
+PII getMinMax(PII *, int *, int, int, int);
+
+// Position this line where user code will be pasted
+
+int main(){
+	int t;
+	cin>>t;
+	while(t--){
+		int num, query;
+		cin>>num>>query;
+		int arr[num];
+		for(int i=0;i<num;i++)
+			cin>>arr[i];
+		
+		PII *st = constructST(arr, num);
+		int L, R, index , val;
+		char type;
+		while(query--){
+		    cin.ignore(INT_MAX, '\n');
+		    cin>>type;
+		    if(type == 'G'){
+		        cin>>L>>R;
+		        PII ans = getMinMax(st, arr, num, L, R);
+		        cout<<ans.first<<" "<<ans.second<<endl;
+		    }
+		    else{
+		        cin>>index>>val;
+		        updateValue(arr, st, num, index, val);
+		    }
+		    
+		}	
+	}
+	return 0;
+}
+// } Driver Code Ends
+
+
+//User function template for C++
+
+// arr : given array arr
+// st : segment tree of the given array arr
+// n :  size of arr array
+// qs and qe : index range to find Min and Max value between these indexes.
+// PII :  return pair denoting min,max respectively.
+// index : given index to update with new_val
+
+PII getMinMax(PII *st,int qs,int qe,int ss, int se, int curr){
+    if(se<qs || qe<ss){
+        return {INT_MAX,INT_MIN};
+    }
+    if(qs<=ss && qe>=se){
+        return st[curr];
+    }
+    int mid=(ss+se)/2;
+    PII x=getMinMax(st,qs,qe,ss,mid,2*curr+1);
+    PII y=getMinMax(st,qs,qe,mid+1,se,2*curr+2);
+    return {min(x.first,y.first),max(x.second,y.second)};
+}
+
+PII getMinMax(PII *st, int *arr, int n, int qs, int qe)
+{
+    return getMinMax(st,qs,qe,0,n-1,0);
+}
+
+void updateValue(PII *st,int index, int new_val, int ss,int se,int curr){
+    if(ss==se){
+        st[curr]={new_val,new_val};
+        return;
+    }
+    int m=(ss+se)/2;
+    if(index<=m){
+        updateValue(st,index,new_val,ss,m,2*curr+1);
+    }
+    else{
+        updateValue(st,index,new_val,m+1,se,2*curr+2);
+    }
+    st[curr] = {min(st[2*curr+1].first,st[2*curr+2].first),max(st[2*curr+1].second,st[2*curr+2].second)};
+}
+
+void updateValue(int *arr, PII *st, int n, int index, int new_val)
+{
+   arr[index]=new_val;
+   updateValue(st,index,new_val,0,n-1,0);
+}
+
+
+
+
+
+
 
