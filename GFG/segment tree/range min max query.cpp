@@ -99,6 +99,9 @@ PII getMinMax(PII *st, int *arr, int n, int qs, int qe)
 }
 
 void updateValue(PII *st,int index, int new_val, int ss,int se,int curr){
+    if(index>se || index<ss){
+        return;
+    }
     if(ss==se){
         st[curr]={new_val,new_val};
         return;
