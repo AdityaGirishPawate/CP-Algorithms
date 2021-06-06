@@ -16,9 +16,12 @@ int32_t main() {
         cin>>arr[i]>>wt[i];
     }
     vector<vector<int>> dp(n+1,vector<int>(w+1,0));
+    for(int i=0;i<=w;i++){
+        dp[0][i]=INT_MIN;
+    }
     for (int i = 1; i < n+1; ++i) {
         for (int j = 1; j < w+1; ++j) {
-            if(wt[i-1]<=j){
+            if(wt[i-1]<=j && dp[i][j-wt[i-1]]!=INT_MIN){
                 dp[i][j] = max(arr[i-1] + dp[i][j-wt[i-1]], dp[i-1][j]);
             }
             else{
@@ -32,6 +35,11 @@ int32_t main() {
         }
         cout<<endl;
     }
-    cout<<dp[n][w]<<endl;
+    if(dp[n][w]==INT_MIN){
+        cout<<"Not possible to cut rod";
+    }
+    else{
+        cout<<dp[n][w]<<endl;
+    }
     return 0;
 }
