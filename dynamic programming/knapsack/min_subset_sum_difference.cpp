@@ -31,7 +31,7 @@ int32_t main() {
         }
     }
     int min_count=INF;
-    for (int i = 0; i < sum/2; ++i) {
+    for (int i = 0; i <= sum/2; ++i) {
         if(dp[n][i]){
             min_count = min( min_count, sum - 2*i);
         }
