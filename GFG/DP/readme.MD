@@ -1,3 +1,12 @@
+## LCS
+### Find Length of LCS
+### Printing LCS
+### Find Length of SCS
+### Printing SCS
+### Coin Change Problem
+### Edit distance Problem
+
+
 ## Nth catalan number
 2nCn/(n+1)
 
