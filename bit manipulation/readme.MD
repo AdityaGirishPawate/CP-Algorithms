@@ -33,7 +33,9 @@ Bitsets
 bitset<365> is a binary number with 365 bits available, and it supports most of binary operations. The code above changes into simple:
 
 code
-Some functions differ, e.g. x.count() instead of __builtin_popcount(x) but it's only more convenient. You can read and print binary numbers, construct a bitset from int or string bitset<100> a(17); bitset<100> b("1010");. You can even access particular bits with b[i]. Read more in C++ reference https://en.cppreference.com/w/cpp/utility/bitset.
+Some functions differ, e.g. x.count() instead of __builtin_popcount(x) but it's only more convenient. You can read and print binary numbers, construct a bitset from int or 
+
+string bitset<100> a(17); bitset<100> b("1010");. You can even access particular bits with b[i]. Read more in C++ reference https://en.cppreference.com/w/cpp/utility/bitset.
 
 Note that the size of the bitset must be a constant number. You can't read n and then declare bitset<n> john;. If n is up to 100, just create bitset<100>.
 
