@@ -1,3 +1,6 @@
+
+https://www.geeksforgeeks.org/c-bitset-and-its-application/
+
 Part 1 (link) introduces basic bitwise operations. This is part 2 and it's mainly about (in)famous bitsets and example problems. Also, see links to very useful advanced stuff at the bottom. EDIT: here's video version of this blog (on my Youtube channel).
 
 Built-in functions
