@@ -5,7 +5,7 @@ using namespace std;
 #define fastio() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL)
 #define MOD 1000000007
 #define MOD1 998244353
-#define INF 1e18+10
+#define INF 1e18+5
 
 #define ll long long
 
@@ -38,7 +38,7 @@ vector<ll> dp; // dp[i] - > the maximum possible value in this sequence of takin
 //vector<ll> pre;
 
 void rec(int i, const vector<int> &not_taken, ll score, int mask, int group,vector<ll> &pre){
-    if(i==(int)not_taken.size()){
+    if(i == (int)not_taken.size()){
         dp[mask] = max(dp[mask],score + pre[group]);
         return;
     }
@@ -55,7 +55,7 @@ void solve(){
             cin>>a[i][j];
         }
     }
-    dp.assign(n,-INF);
+    dp.assign((1<<n),-INF);
     vector<ll> pre((1<<n));
     // O(2^N * N^2)
     for(int mask=0;mask<(1<<n);mask++){
